@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" href="assets/favicon.png" type="image/png">   
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ADev Launcher</title>
+
+  <style>
+   :root {
+  --bg: #0b0f17;
+  --text: #e8faff;
+  --accent: #00eaff;
+  --gradient: linear-gradient(135deg, #0b486bab, #3b868683, #79bd9a91, #cff09e88);
+  --glass: rgba(255, 255, 255, 0.06);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --radius: 18px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  background-image: var(--gradient);
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+/* Fade-in scroll animation */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* NAV */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 60px;
+  backdrop-filter: blur(12px);
+  background: var(--glass);
+  border-bottom: 1px solid var(--glass-border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+header nav a {
+  margin-left: 30px;
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  opacity: 0.9;
+  transition: 0.2s;
+}
+
+header nav a:hover {
+  opacity: 1;
+  text-shadow: 0 0 8px var(--accent);
+}
+
+/* TEXT LOGO */
+.text-logo {
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: var(--accent);
+  text-shadow: 0 0 12px rgba(0, 234, 255, 0.6);
+  user-select: none;
+}
+
+.text-logo span {
+  font-size: 14px;
+  display: block;
+  letter-spacing: 4px;
+  margin-top: -6px;
+  opacity: 0.8;
+}
+
+/* HERO */
+.hero {
+  text-align: center;
+  padding: 140px 20px;
+}
+
+.hero h1 {
+  font-size: 64px;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.cta {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 14px 32px;
+  background: var(--accent);
+  color: #000;
+  border-radius: var(--radius);
+  font-weight: bold;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.cta:hover { transform: scale(1.05); }
+
+/* ABOUT SECTION */
+.about {
+  padding: 80px 60px;
+  text-align: center;
+  max-width: 900px;
+  margin: auto;
+}
+
+.about p {
+  font-size: 18px;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+/* FEATURES */
+.features {
+  padding: 80px 60px;
+  text-align: center;
+}
+
+.feature-grid {
+  display: flex;
+  gap: 30px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.feature-card {
+  flex: 1;
+  min-width: 260px;
+  max-width: 320px;
+  padding: 30px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  backdrop-filter: blur(10px);
+  transition: 0.4s;
+  cursor: pointer;
+}
+
+.feature-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(0, 234, 255, 0.3);
+}
+
+
+/* GALLERY HEADING FIX */
+.screenshots h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  width: 100%;
+  display: block;
+}
+.screenshots {
+  padding: 80px 60px;
+  text-align: center;
+}
+
+/* GIANT 3-IMAGE CAROUSEL */
+.carousel-container {
+  position: relative;
+  width: 95%;
+  max-width: 1400px;
+  margin: 60px auto;
+  overflow: hidden;
+  border-radius: var(--radius);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(10px);
+  background: var(--glass);
+
+  /* FIX: match main image height */
+  height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-track {
+  width: 100%;
+  height: 100%; /* FIX: ensures vertical centering */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  transition: transform 0.6s ease;
+}
+
+/* MAIN IMAGE SIZE — CHANGE THIS */
+.carousel-slide.main img {
+  width: 700px;   /* <— MAIN IMAGE WIDTH */
+  height: 400px;  /* <— MAIN IMAGE HEIGHT */
+  object-fit: cover;
+  border-radius: var(--radius);
+  transition: 0.4s;
+  cursor: pointer;
+}
+
+/* SIDE IMAGE SIZE — CHANGE THIS */
+.carousel-slide.side img {
+  width: 300px;   /* <— SIDE IMAGE WIDTH */
+  height: 200px;  /* <— SIDE IMAGE HEIGHT */
+  object-fit: cover;
+  opacity: 0.6;
+  filter: blur(1px);
+  border-radius: var(--radius);
+  transition: 0.4s;
+  cursor: pointer;
+}
+
+.carousel-slide img:hover {
+  opacity: 1;
+  filter: none;
+}
+
+/* ARROW BUTTONS */
+.carousel-btn {
+  position: absolute;
+  top: 50%; /* FIX: perfect vertical centering */
+  transform: translateY(-50%);
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.2s;
+  z-index: 5;
+}
+
+.carousel-btn:hover { background: var(--accent); }
+
+.carousel-btn img {
+  width: 32px;
+  height: 32px;
+}
+
+.left-btn { left: 30px; }
+.right-btn { right: 30px; }
+
+/* FULLSCREEN VIEWER */
+.fullscreen-viewer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(8px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.fullscreen-viewer img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: var(--radius);
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+.fullscreen-close {
+  position: absolute;
+  top: 20px;
+  right: 40px;
+  font-size: 40px;
+  color: var(--accent);
+  cursor: pointer;
+  user-select: none;
+}
+
+.fullscreen-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  user-select: none;
+}
+
+.fullscreen-left { left: 40px; }
+.fullscreen-right { right: 40px; }
+
+.fullscreen-arrow img {
+  width: 50px;
+  height: 50px;
+}
+
+footer {
+  text-align: center;
+  padding: 30px;
+  opacity: 0.7;
+  font-size: 14px;
+}
+/* FEATURE MODAL (clickable feature cards) */
+.feature-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(12px);
+  background: rgba(0,0,0,0.55);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.feature-modal {
+  width: 70%;
+  max-width: 900px;
+  max-height: 80%;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  backdrop-filter: blur(20px);
+  padding: 30px;
+  overflow-y: auto;
+  box-shadow: 0 0 20px rgba(0,0,0,0.4);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.feature-modal h2 {
+  margin-top: 0;
+  color: var(--accent);
+  text-shadow: 0 0 8px rgba(0,234,255,0.4);
+}
+
+.feature-modal-close {
+  position: absolute;
+  top: 20px;
+  right: 40px;
+  font-size: 40px;
+  color: var(--accent);
+  cursor: pointer;
+  user-select: none;
+}
+@media (max-width: 600px) {
+  .feature-modal {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .feature-modal-close {
+    right: 20px;
+  }
+}
+
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <header>
+    <div class="text-logo">
+      ADEV
+      <span>STUDIOS</span>
+    </div>
+
+    <nav>
+      <a href="#about">About</a>
+      <a href="#features">Features</a>
+      <a href="#screenshots">Gallery</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero fade-in">
+    <h1>ADev Launcher</h1>
+    <p>Your games. Your universe. One launcher.</p>
+    <a id="autoDownload" class="cta">Download</a>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="about fade-in">
+    <h2>What is ADev Launcher?</h2>
+    <p>ADev Launcher is the unified home for every game built under ADev Studios...but it can launch your game too! Almost any executable, can launch as well.</p>
+
+    <h2>Why We Built It</h2>
+    <p>We wanted a launcher that felt alive... and provided a seamless experience with different games. We have some themes, but we're always looking to improve! Adding games is really easy!</p>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features" class="features fade-in">
+    <h2>Features</h2>
+    <div class="feature-grid">
+      <div class="feature-card"><h3>Unified Library</h3><p>All ADev games...</p></div>
+      <div class="feature-card"><h3>Fast Launch</h3><p>Optimized startup...</p></div>
+      <div class="feature-card"><h3>Cross‑Platform</h3><p>Linux + Windows...</p></div>
+    </div>
+  </section>
+
+  <!-- GIANT CAROUSEL -->
+  <section id="screenshots" class="screenshots fade-in">
+    <h2>Gallery</h2>
+
+    <div class="carousel-container">
+      <button class="carousel-btn left-btn"><img src="assets/arrowleft.png"></button>
+      <button class="carousel-btn right-btn"><img src="assets/arrowright.png"></button>
+
+      <div class="carousel-track" id="carouselTrack"></div>
+    </div>
+  </section>
+
+  <!-- FULLSCREEN VIEWER -->
+  <div class="fullscreen-viewer" id="fullscreenViewer">
+    <div class="fullscreen-close" id="closeFullscreen">×</div>
+    <div class="fullscreen-arrow fullscreen-left" id="fsLeft">
+      <img src="assets/arrowleft.png">
+    </div>
+    <div class="fullscreen-arrow fullscreen-right" id="fsRight">
+      <img src="assets/arrowright.png">
+    </div>
+    <img id="fullscreenImage">
+  </div>
+
+  <!-- ⭐ FEATURE MODAL (ADDED HERE) -->
+  <div class="feature-modal-overlay" id="featureModalOverlay">
+    <div class="feature-modal" id="featureModal">
+      <div class="feature-modal-close" id="featureModalClose">×</div>
+      <h2 id="featureModalTitle"></h2>
+      <div id="featureModalContent"></div>
+    </div>
+  </div>
+
+  <footer>© 2026 Austin ADev — ADev Studios</footer>
+
+  <script>
+    /* OS Detection */
+    function detectOS() {
+      const ua = navigator.userAgent.toLowerCase();
+      if (ua.includes("win")) return "windows";
+      if (ua.includes("linux")) return "linux";
+      if (ua.includes("mac")) return "mac";
+      return "unknown";
+    }
+
+    const os = detectOS();
+    const autoBtn = document.getElementById("autoDownload");
+    autoBtn.textContent = os === "windows" ? "Download for Windows" :
+                          os === "linux" ? "Download for Linux" :
+                          "Choose Your OS";
+
+    /* Fade-in */
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add("visible");
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll(".fade-in").forEach(el => observer.observe(el));
+
+    /* CAROUSEL + FULLSCREEN */
+    const track = document.getElementById("carouselTrack");
+
+    const images = [
+      "assets/screenshots/1.png",
+      "assets/screenshots/2.png",
+      "assets/screenshots/3.png",
+      "assets/screenshots/4.png"
+    ];
+
+    function renderCarousel() {
+      track.innerHTML = "";
+
+      const leftIndex = (index - 1 + images.length) % images.length;
+      const rightIndex = (index + 1) % images.length;
+
+      const leftSlide = `<div class="carousel-slide side"><img src="${images[leftIndex]}" data-index="${leftIndex}"></div>`;
+      const mainSlide = `<div class="carousel-slide main"><img src="${images[index]}" data-index="${index}"></div>`;
+      const rightSlide = `<div class="carousel-slide side"><img src="${images[rightIndex]}" data-index="${rightIndex}"></div>`;
+
+      track.innerHTML = leftSlide + mainSlide + rightSlide;
+    }
+
+    let index = 0;
+    renderCarousel();
+
+    document.querySelector(".left-btn").onclick = () => {
+      index = (index - 1 + images.length) % images.length;
+      renderCarousel();
+    };
+
+    document.querySelector(".right-btn").onclick = () => {
+      index = (index + 1) % images.length;
+      renderCarousel();
+    };
+
+    /* AUTO-PLAY every 5 seconds, pause on hover */
+    let autoplay = setInterval(() => {
+      index = (index + 1) % images.length;
+      renderCarousel();
+    }, 5000);
+
+    const carouselContainer = document.querySelector(".carousel-container");
+
+    carouselContainer.addEventListener("mouseenter", () => {
+      clearInterval(autoplay);
+    });
+
+    carouselContainer.addEventListener("mouseleave", () => {
+      autoplay = setInterval(() => {
+        index = (index + 1) % images.length;
+        renderCarousel();
+      }, 5000);
+    });
+
+    /* FULLSCREEN VIEWER */
+    const viewer = document.getElementById("fullscreenViewer");
+    const fsImg = document.getElementById("fullscreenImage");
+
+    document.addEventListener("click", e => {
+      if (e.target.tagName === "IMG" && e.target.dataset.index !== undefined) {
+        index = Number(e.target.dataset.index);
+        fsImg.src = images[index];
+        viewer.style.display = "flex";
+      }
+    });
+
+    document.getElementById("closeFullscreen").onclick = () => {
+      viewer.style.display = "none";
+    };
+
+    document.getElementById("fsLeft").onclick = () => {
+      index = (index - 1 + images.length) % images.length;
+      fsImg.src = images[index];
+    };
+
+    document.getElementById("fsRight").onclick = () => {
+      index = (index + 1) % images.length;
+      fsImg.src = images[index];
+    };
+
+    /* ⭐ FEATURE CARD MODAL (ADDED HERE) */
+    const featureCards = document.querySelectorAll(".feature-card");
+    const modalOverlay = document.getElementById("featureModalOverlay");
+    const modalTitle = document.getElementById("featureModalTitle");
+    const modalContent = document.getElementById("featureModalContent");
+    const modalClose = document.getElementById("featureModalClose");
+
+    const featureDescriptions = {
+      "Unified Library": `
+        ADev Launcher brings all your games together in one clean, unified interface.
+        <br><br>
+        • Automatic metadata<br>
+        • Thumbnail support<br>
+        • Version tracking<br>
+        • Cross‑platform consistency<br><br>
+        This system is designed to scale with your studio as your library grows.
+      `,
+      "Fast Launch": `
+        ADev Launcher is optimized for instant startup and near‑zero launch delay.
+        <br><br>
+        • Smart caching<br>
+        • Executable pre‑validation<br>
+        • Lightweight runtime<br>
+        • Zero bloat<br><br>
+        Built for speed — because your time matters.
+      `,
+      "Cross‑Platform": `
+        ADev Launcher runs beautifully on Linux and Windows with a unified UI.
+        <br><br>
+        • Identical experience on both platforms<br>
+        • Native file handling<br>
+        • Executable detection<br>
+        • Theme consistency<br><br>
+        Your launcher, your OS — no compromises.
+      `
+    };
+
+    featureCards.forEach(card => {
+      card.addEventListener("click", () => {
+        const title = card.querySelector("h3").textContent;
+        modalTitle.textContent = title;
+        modalContent.innerHTML = featureDescriptions[title] || "No description available.";
+        modalOverlay.style.display = "flex";
+      });
+    });
+
+    modalClose.onclick = () => modalOverlay.style.display = "none";
+    modalOverlay.onclick = e => {
+      if (e.target === modalOverlay) modalOverlay.style.display = "none";
+    };
+  </script>
+
+</body>
+</html>
